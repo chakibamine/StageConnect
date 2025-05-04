@@ -1,5 +1,6 @@
 package com.backend.stageconnect.controller;
 
+import com.backend.stageconnect.dto.EducationDTO;
 import com.backend.stageconnect.entity.Candidate;
 import com.backend.stageconnect.entity.UserType;
 import com.backend.stageconnect.repository.CandidateRepository;
@@ -16,8 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/candidates")
@@ -160,6 +163,12 @@ public class CandidateController {
         if (candidate.getPhoto() != null) {
             response.put("photo", baseUrl + candidate.getPhoto());
         }
+
+        // Convert education list to DTOs
+        List<EducationDTO> educationDTOs = candidate.getEducation().stream()
+            .map(EducationDTO::fromEntity)
+            .collect(Collectors.toList());
+        response.put("education", educationDTOs);
         
         return ResponseEntity.ok(response);
     }
