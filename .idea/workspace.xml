@@ -5,9 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d30ae57-6091-4425-94f0-d5a442e7c84d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/backend/stageconnect/controller/CandidateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/backend/stageconnect/controller/CandidateController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/backend/stageconnect/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/backend/stageconnect/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/backend/stageconnect/config/WebConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/backend/stageconnect/config/WebConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/backend/stageconnect/entity/Candidate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/backend/stageconnect/entity/Candidate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/backend/stageconnect/security/JwtAuthenticationFilter.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/CandidateController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/CandidateController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Candidate$CandidateBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Candidate$CandidateBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Candidate$CandidateBuilderImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Candidate$CandidateBuilderImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Candidate.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Candidate.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/uploads/e73c11b9-7f03-4b3f-9906-7869df08a2b1.jpg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,7 +100,8 @@
       <workItem from="1745395145930" duration="436000" />
       <workItem from="1746288050243" duration="1843000" />
       <workItem from="1746352813359" duration="3289000" />
-      <workItem from="1746372327945" duration="1212000" />
+      <workItem from="1746372327945" duration="2087000" />
+      <workItem from="1746375065947" duration="5434000" />
     </task>
     <servers />
   </component>

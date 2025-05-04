@@ -18,7 +18,7 @@ public class WebConfig implements WebMvcConfigurer {
                 "https://stageconnect.vercel.app"  // Production URL
             )
             .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-            .allowedHeaders("Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization", "X-CORS-Debug")
+            .allowedHeaders("Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization", "X-CORS-Debug", "x-cors-debug", "Access-Control-Request-Method", "Access-Control-Request-Headers")
             .exposedHeaders("Authorization", "X-CORS-Debug")
             .allowCredentials(true)
             .maxAge(3600);
