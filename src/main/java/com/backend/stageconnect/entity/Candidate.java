@@ -21,7 +21,8 @@ public class Candidate extends User {
     private String phone;
     private String location;
     private String title;
-    private String university;
+    private String website;
+    private String companyOrUniversity;
     
     @Column(length = 2000)
     private String about;

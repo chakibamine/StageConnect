@@ -19,7 +19,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/responsibles")
-@CrossOrigin(origins = "*")
 public class ResponsibleController {
 
     @Autowired

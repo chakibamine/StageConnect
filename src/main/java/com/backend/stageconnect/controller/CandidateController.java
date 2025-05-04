@@ -17,7 +17,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/candidates")
-@CrossOrigin(origins = "*")
 public class CandidateController {
 
     @Autowired
@@ -135,5 +134,47 @@ public class CandidateController {
         candidate.setPassword(null); // Don't return password
         
         return ResponseEntity.ok(candidate);
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getAllCandidates() {
+        var candidates = candidateRepository.findAll();
+        candidates.forEach(c -> c.setPassword(null));
+        return ResponseEntity.ok(candidates);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateCandidate(@PathVariable Long id, @RequestBody Candidate updatedCandidate) {
+        Optional<Candidate> candidateOpt = candidateRepository.findById(id);
+        if (candidateOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Candidate candidate = candidateOpt.get();
+        
+        // Update fields except password
+        candidate.setFirstName(updatedCandidate.getFirstName());
+        candidate.setLastName(updatedCandidate.getLastName());
+        candidate.setEmail(updatedCandidate.getEmail());
+        candidate.setPhone(updatedCandidate.getPhone());
+        candidate.setLocation(updatedCandidate.getLocation());
+        candidate.setTitle(updatedCandidate.getTitle());
+        candidate.setWebsite(updatedCandidate.getWebsite());
+        candidate.setCompanyOrUniversity(updatedCandidate.getCompanyOrUniversity());
+        candidate.setAbout(updatedCandidate.getAbout());
+        candidate.setPhoto(updatedCandidate.getPhoto());
+        
+        // Save and return updated candidate without password
+        Candidate saved = candidateRepository.save(candidate);
+        saved.setPassword(null);
+        return ResponseEntity.ok(saved);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteCandidate(@PathVariable Long id) {
+        if (!candidateRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        candidateRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 } 
