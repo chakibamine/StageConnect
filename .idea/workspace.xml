@@ -5,12 +5,39 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d30ae57-6091-4425-94f0-d5a442e7c84d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/backend/stageconnect/StageConnectApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/backend/stageconnect/StageConnectApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/backend/stageconnect/config/CorsFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/backend/stageconnect/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/backend/stageconnect/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/backend/stageconnect/config/WebConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/backend/stageconnect/config/WebConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/StageConnectApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/StageConnectApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/config/CorsFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/config/CorsFilter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/config/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/config/SecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/config/WebConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/config/WebConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/AuthController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/AuthController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/CandidateController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/CandidateController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/CompanyController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/CompanyController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/ResponsibleController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/ResponsibleController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Candidate$CandidateBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Candidate$CandidateBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Candidate$CandidateBuilderImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Candidate$CandidateBuilderImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Candidate.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Candidate.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Company$CompanyBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Company$CompanyBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Company.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Company.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Responsible$ResponsibleBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Responsible$ResponsibleBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Responsible$ResponsibleBuilderImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Responsible$ResponsibleBuilderImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Responsible.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Responsible.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/User$UserBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/User$UserBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/UserType.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/UserType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/CandidateRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/CandidateRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/CompanyRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/CompanyRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/ResponsibleRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/ResponsibleRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/UserRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/UserRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/security/JwtAuthenticationFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/security/JwtAuthenticationFilter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/security/JwtService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/security/JwtService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/backend/stageconnect/StageConnectApplicationTests.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,6 +117,9 @@
       <workItem from="1744903646936" duration="679000" />
       <workItem from="1745170553661" duration="2219000" />
       <workItem from="1745173408826" duration="154000" />
+      <workItem from="1745395145930" duration="436000" />
+      <workItem from="1746288050243" duration="1843000" />
+      <workItem from="1746352813359" duration="3289000" />
     </task>
     <servers />
   </component>

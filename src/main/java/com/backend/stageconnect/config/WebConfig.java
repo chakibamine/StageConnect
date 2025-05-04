@@ -15,10 +15,12 @@ public class WebConfig implements WebMvcConfigurer {
                 "http://127.0.0.1:3000",           // Alternative localhost
                 "http://localhost:5173",           // Vite dev server
                 "http://127.0.0.1:5173",           // Alternative Vite localhost
-                "https://stageconnect.vercel.app"  // Example production URL (change to your actual domain)
+                "https://stageconnect.vercel.app"  // Production URL
             )
             .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-            .allowedHeaders("*")
-            .allowCredentials(true);
+            .allowedHeaders("Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization", "X-CORS-Debug")
+            .exposedHeaders("Authorization", "X-CORS-Debug")
+            .allowCredentials(true)
+            .maxAge(3600);
     }
 } 
