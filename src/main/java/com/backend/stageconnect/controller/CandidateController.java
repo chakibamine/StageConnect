@@ -2,12 +2,16 @@ package com.backend.stageconnect.controller;
 
 import com.backend.stageconnect.dto.EducationDTO;
 import com.backend.stageconnect.dto.CertificationDTO;
+import com.backend.stageconnect.dto.ExperienceDTO;
+import com.backend.stageconnect.dto.CandidateDTO;
 import com.backend.stageconnect.entity.Candidate;
 import com.backend.stageconnect.entity.UserType;
 import com.backend.stageconnect.repository.CandidateRepository;
 import com.backend.stageconnect.repository.UserRepository;
 import com.backend.stageconnect.security.JwtService;
 import com.backend.stageconnect.service.FileStorageService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -15,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -26,6 +31,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/candidates")
 public class CandidateController {
+    private static final Logger logger = LoggerFactory.getLogger(CandidateController.class);
 
     @Value("${app.base-url:http://localhost:8080}")
     private String baseUrl;
@@ -138,46 +144,37 @@ public class CandidateController {
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> getCandidateById(@PathVariable Long id) {
-        Optional<Candidate> candidateOpt = candidateRepository.findById(id);
-        if (candidateOpt.isEmpty()) {
-            return ResponseEntity.notFound().build();
+    @Transactional
+    public ResponseEntity<?> getCandidateById(@PathVariable Long id) {
+        try {
+            Optional<Candidate> candidateOpt = candidateRepository.findById(id);
+            if (candidateOpt.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+            
+            Candidate candidate = candidateOpt.get();
+            
+            // Ensure password is preserved during updates
+            String existingPassword = candidate.getPassword();
+            
+            // Convert experiences to DTOs
+            List<ExperienceDTO> experienceDTOs = candidate.getExperiences().stream()
+                .map(ExperienceDTO::fromEntity)
+                .collect(Collectors.toList());
+            
+            // Create CandidateDTO
+            CandidateDTO candidateDTO = CandidateDTO.fromEntity(candidate);
+            candidateDTO.setExperiences(experienceDTOs);
+            
+            // Restore password before saving
+            candidate.setPassword(existingPassword);
+            
+            return ResponseEntity.ok(candidateDTO);
+        } catch (Exception e) {
+            logger.error("Error processing candidate data: " + e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error processing candidate data: " + e.getMessage());
         }
-        
-        Candidate candidate = candidateOpt.get();
-        candidate.setPassword(null); // Don't return password
-        
-        // Create response map with all candidate data
-        Map<String, Object> response = new HashMap<>();
-        response.put("id", candidate.getId());
-        response.put("firstName", candidate.getFirstName());
-        response.put("lastName", candidate.getLastName());
-        response.put("email", candidate.getEmail());
-        response.put("phone", candidate.getPhone());
-        response.put("location", candidate.getLocation());
-        response.put("title", candidate.getTitle());
-        response.put("website", candidate.getWebsite());
-        response.put("companyOrUniversity", candidate.getCompanyOrUniversity());
-        response.put("about", candidate.getAbout());
-        
-        // Add complete photo URL if photo exists
-        if (candidate.getPhoto() != null) {
-            response.put("photo", baseUrl + candidate.getPhoto());
-        }
-
-        // Convert education list to DTOs
-        List<EducationDTO> educationDTOs = candidate.getEducation().stream()
-            .map(EducationDTO::fromEntity)
-            .collect(Collectors.toList());
-        response.put("education", educationDTOs);
-
-        // Convert certification list to DTOs
-        List<CertificationDTO> certificationDTOs = candidate.getCertifications().stream()
-            .map(CertificationDTO::fromEntity)
-            .collect(Collectors.toList());
-        response.put("certifications", certificationDTOs);
-        
-        return ResponseEntity.ok(response);
     }
 
     @GetMapping
