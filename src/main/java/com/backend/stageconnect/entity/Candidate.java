@@ -17,7 +17,9 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class Candidate extends User {
     
+    @Column(name = "photo")
     private String photo;
+
     private String phone;
     private String location;
     private String title;

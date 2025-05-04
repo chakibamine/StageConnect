@@ -5,12 +5,16 @@ import com.backend.stageconnect.entity.UserType;
 import com.backend.stageconnect.repository.CandidateRepository;
 import com.backend.stageconnect.repository.UserRepository;
 import com.backend.stageconnect.security.JwtService;
+import com.backend.stageconnect.service.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -18,6 +22,9 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/candidates")
 public class CandidateController {
+
+    @Value("${app.base-url:http://localhost:8080}")
+    private String baseUrl;
 
     @Autowired
     private CandidateRepository candidateRepository;
@@ -30,6 +37,9 @@ public class CandidateController {
     
     @Autowired
     private JwtService jwtService;
+
+    @Autowired
+    private FileStorageService fileStorageService;
     
     @PostMapping("/register")
     public ResponseEntity<Map<String, Object>> register(@RequestBody Candidate candidate) {
@@ -124,7 +134,7 @@ public class CandidateController {
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<Candidate> getCandidateById(@PathVariable Long id) {
+    public ResponseEntity<Map<String, Object>> getCandidateById(@PathVariable Long id) {
         Optional<Candidate> candidateOpt = candidateRepository.findById(id);
         if (candidateOpt.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -133,18 +143,62 @@ public class CandidateController {
         Candidate candidate = candidateOpt.get();
         candidate.setPassword(null); // Don't return password
         
-        return ResponseEntity.ok(candidate);
+        // Create response map with all candidate data
+        Map<String, Object> response = new HashMap<>();
+        response.put("id", candidate.getId());
+        response.put("firstName", candidate.getFirstName());
+        response.put("lastName", candidate.getLastName());
+        response.put("email", candidate.getEmail());
+        response.put("phone", candidate.getPhone());
+        response.put("location", candidate.getLocation());
+        response.put("title", candidate.getTitle());
+        response.put("website", candidate.getWebsite());
+        response.put("companyOrUniversity", candidate.getCompanyOrUniversity());
+        response.put("about", candidate.getAbout());
+        
+        // Add complete photo URL if photo exists
+        if (candidate.getPhoto() != null) {
+            response.put("photo", baseUrl + candidate.getPhoto());
+        }
+        
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
     public ResponseEntity<?> getAllCandidates() {
         var candidates = candidateRepository.findAll();
-        candidates.forEach(c -> c.setPassword(null));
-        return ResponseEntity.ok(candidates);
+        var response = candidates.stream().map(candidate -> {
+            Map<String, Object> candidateMap = new HashMap<>();
+            candidate.setPassword(null); // Don't return password
+            
+            candidateMap.put("id", candidate.getId());
+            candidateMap.put("firstName", candidate.getFirstName());
+            candidateMap.put("lastName", candidate.getLastName());
+            candidateMap.put("email", candidate.getEmail());
+            candidateMap.put("phone", candidate.getPhone());
+            candidateMap.put("location", candidate.getLocation());
+            candidateMap.put("title", candidate.getTitle());
+            candidateMap.put("website", candidate.getWebsite());
+            candidateMap.put("companyOrUniversity", candidate.getCompanyOrUniversity());
+            candidateMap.put("about", candidate.getAbout());
+            
+            // Add complete photo URL if photo exists
+            if (candidate.getPhoto() != null) {
+                candidateMap.put("photo", baseUrl + candidate.getPhoto());
+            }
+            
+            return candidateMap;
+        }).toList();
+        
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateCandidate(@PathVariable Long id, @RequestBody Candidate updatedCandidate) {
+    public ResponseEntity<?> updateCandidate(
+            @PathVariable Long id,
+            @RequestPart(value = "file", required = false) MultipartFile file,
+            @RequestPart("data") Candidate updatedCandidate) {
+        
         Optional<Candidate> candidateOpt = candidateRepository.findById(id);
         if (candidateOpt.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -161,7 +215,22 @@ public class CandidateController {
         candidate.setWebsite(updatedCandidate.getWebsite());
         candidate.setCompanyOrUniversity(updatedCandidate.getCompanyOrUniversity());
         candidate.setAbout(updatedCandidate.getAbout());
-        candidate.setPhoto(updatedCandidate.getPhoto());
+        
+        // Handle file upload if provided
+        if (file != null && !file.isEmpty()) {
+            try {
+                // Delete old file if exists
+                if (candidate.getPhoto() != null) {
+                    fileStorageService.deleteFile(candidate.getPhoto());
+                }
+                // Save new file
+                String filePath = fileStorageService.saveFile(file);
+                candidate.setPhoto(filePath);
+            } catch (IOException e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Failed to upload file: " + e.getMessage()));
+            }
+        }
         
         // Save and return updated candidate without password
         Candidate saved = candidateRepository.save(candidate);
@@ -171,9 +240,23 @@ public class CandidateController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCandidate(@PathVariable Long id) {
-        if (!candidateRepository.existsById(id)) {
+        Optional<Candidate> candidateOpt = candidateRepository.findById(id);
+        if (candidateOpt.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
+
+        Candidate candidate = candidateOpt.get();
+        
+        // Delete photo file if exists
+        if (candidate.getPhoto() != null) {
+            try {
+                fileStorageService.deleteFile(candidate.getPhoto());
+            } catch (IOException e) {
+                // Log error but continue with deletion
+                System.err.println("Failed to delete photo file: " + e.getMessage());
+            }
+        }
+
         candidateRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
