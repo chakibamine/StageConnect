@@ -1,6 +1,7 @@
 package com.backend.stageconnect.controller;
 
 import com.backend.stageconnect.dto.EducationDTO;
+import com.backend.stageconnect.dto.CertificationDTO;
 import com.backend.stageconnect.entity.Candidate;
 import com.backend.stageconnect.entity.UserType;
 import com.backend.stageconnect.repository.CandidateRepository;
@@ -169,6 +170,12 @@ public class CandidateController {
             .map(EducationDTO::fromEntity)
             .collect(Collectors.toList());
         response.put("education", educationDTOs);
+
+        // Convert certification list to DTOs
+        List<CertificationDTO> certificationDTOs = candidate.getCertifications().stream()
+            .map(CertificationDTO::fromEntity)
+            .collect(Collectors.toList());
+        response.put("certifications", certificationDTOs);
         
         return ResponseEntity.ok(response);
     }

@@ -35,6 +35,9 @@ public class Candidate extends User {
     @OneToMany(mappedBy = "candidate", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Education> education = new ArrayList<>();
 
+    @OneToMany(mappedBy = "candidate", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Certification> certifications = new ArrayList<>();
+
     // Helper method to add education
     public void addEducation(Education education) {
         this.education.add(education);
@@ -45,5 +48,17 @@ public class Candidate extends User {
     public void removeEducation(Education education) {
         this.education.remove(education);
         education.setCandidate(null);
+    }
+
+    // Helper method to add certification
+    public void addCertification(Certification certification) {
+        this.certifications.add(certification);
+        certification.setCandidate(this);
+    }
+
+    // Helper method to remove certification
+    public void removeCertification(Certification certification) {
+        this.certifications.remove(certification);
+        certification.setCandidate(null);
     }
 } 
