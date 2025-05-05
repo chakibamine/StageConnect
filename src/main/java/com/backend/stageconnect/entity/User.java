@@ -52,6 +52,9 @@ public abstract class User {
     @OneToMany(mappedBy = "followed", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserFollowing> followers = new ArrayList<>();
     
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostLike> likedPosts = new ArrayList<>();
+    
     // Helper method to add a post
     public void addPost(Post post) {
         posts.add(post);
@@ -62,5 +65,22 @@ public abstract class User {
     public void removePost(Post post) {
         posts.remove(post);
         post.setAuthor(null);
+    }
+    
+    // Helper method to like a post
+    public void likePost(Post post) {
+        PostLike postLike = new PostLike();
+        postLike.setId(new PostLike.PostLikeId(this.id, post.getId()));
+        postLike.setUser(this);
+        postLike.setPost(post);
+        likedPosts.add(postLike);
+    }
+    
+    // Helper method to unlike a post
+    public void unlikePost(Post post) {
+        likedPosts.removeIf(like -> 
+            like.getId().getPostId().equals(post.getId()) && 
+            like.getId().getUserId().equals(this.id)
+        );
     }
 } 

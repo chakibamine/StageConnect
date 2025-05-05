@@ -4,6 +4,7 @@ import com.backend.stageconnect.entity.Post;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class PostDTO {
@@ -16,6 +17,7 @@ public class PostDTO {
     private Long authorId;
     private String authorName;
     private String authorProfileImage;
+    private boolean likedByCurrentUser;
 
     public static PostDTO fromEntity(Post post) {
         PostDTO dto = new PostDTO();
@@ -43,6 +45,12 @@ public class PostDTO {
             }
         }
         
+        return dto;
+    }
+    
+    public static PostDTO fromEntity(Post post, List<Long> likedPostIds) {
+        PostDTO dto = fromEntity(post);
+        dto.setLikedByCurrentUser(likedPostIds != null && likedPostIds.contains(post.getId()));
         return dto;
     }
 } 

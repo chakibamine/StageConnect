@@ -1,8 +1,13 @@
 package com.backend.stageconnect.controller;
 
+import com.backend.stageconnect.dto.EnhancedPostDTO;
 import com.backend.stageconnect.dto.PostDTO;
+import com.backend.stageconnect.entity.Comment;
 import com.backend.stageconnect.entity.Post;
+import com.backend.stageconnect.entity.PostLike;
 import com.backend.stageconnect.entity.User;
+import com.backend.stageconnect.repository.CommentRepository;
+import com.backend.stageconnect.repository.PostLikeRepository;
 import com.backend.stageconnect.repository.PostRepository;
 import com.backend.stageconnect.repository.UserRepository;
 import jakarta.validation.Valid;
@@ -24,6 +29,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,21 +54,47 @@ public class PostController {
     @Autowired
     private UserRepository userRepository;
     
+    @Autowired
+    private PostLikeRepository postLikeRepository;
+    
+    @Autowired
+    private CommentRepository commentRepository;
+    
     // Get the current user's feed (their posts and posts from users they follow)
     @GetMapping("/feed")
     public ResponseEntity<Map<String, Object>> getFeed(
-            Authentication authentication,
+            @RequestParam("user_id") Long userId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         
         try {
-            User currentUser = (User) authentication.getPrincipal();
+            User user = userRepository.findById(userId).orElse(null);
+            if (user == null) {
+                Map<String, Object> response = new HashMap<>();
+                response.put("success", false);
+                response.put("message", "User not found with ID: " + userId);
+                return ResponseEntity.badRequest().body(response);
+            }
+            
             Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
             
-            Page<Post> postsPage = postRepository.findFeedPostsForUser(currentUser.getId(), pageable);
+            Page<Post> postsPage = postRepository.findFeedPostsForUser(user.getId(), pageable);
             
-            List<PostDTO> posts = postsPage.getContent().stream()
-                    .map(PostDTO::fromEntity)
+            // Get all post IDs liked by this user
+            final List<Long> likedPostIds = postLikeRepository.findPostIdsByUserId(userId);
+            
+            // Map posts to enhanced DTOs with comments and likes
+            List<EnhancedPostDTO> posts = postsPage.getContent().stream()
+                    .map(post -> {
+                        // Get all comments for this post
+                        List<Comment> comments = commentRepository.findByPostIdAndParentCommentIsNullOrderByCreatedAtDesc(
+                                post.getId(), Pageable.unpaged()).getContent();
+                        
+                        // Get all likes for this post
+                        List<PostLike> likes = postLikeRepository.findByIdPostId(post.getId());
+                        
+                        return EnhancedPostDTO.fromEntity(post, comments, likes, likedPostIds);
+                    })
                     .collect(Collectors.toList());
             
             Map<String, Object> response = new HashMap<>();
@@ -80,9 +112,10 @@ public class PostController {
         }
     }
     
-    // Get all posts (for admin or public timeline)
+    // Get all posts (for admin or public timeline) with detailed information
     @GetMapping
     public ResponseEntity<Map<String, Object>> getAllPosts(
+            @RequestParam(required = false) Long userId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         
@@ -90,8 +123,23 @@ public class PostController {
             Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
             Page<Post> postsPage = postRepository.findAllByOrderByCreatedAtDesc(pageable);
             
-            List<PostDTO> posts = postsPage.getContent().stream()
-                    .map(PostDTO::fromEntity)
+            // Get user's liked posts if userId is provided
+            final List<Long> likedPostIds = userId != null 
+                ? postLikeRepository.findPostIdsByUserId(userId) 
+                : null;
+            
+            // Map posts to enhanced DTOs with comments and likes
+            List<EnhancedPostDTO> posts = postsPage.getContent().stream()
+                    .map(post -> {
+                        // Get all comments for this post
+                        List<Comment> comments = commentRepository.findByPostIdAndParentCommentIsNullOrderByCreatedAtDesc(
+                                post.getId(), Pageable.unpaged()).getContent();
+                        
+                        // Get all likes for this post
+                        List<PostLike> likes = postLikeRepository.findByIdPostId(post.getId());
+                        
+                        return EnhancedPostDTO.fromEntity(post, comments, likes, likedPostIds);
+                    })
                     .collect(Collectors.toList());
             
             Map<String, Object> response = new HashMap<>();
@@ -113,6 +161,7 @@ public class PostController {
     @GetMapping("/user/{userId}")
     public ResponseEntity<Map<String, Object>> getUserPosts(
             @PathVariable Long userId,
+            @RequestParam(required = false) Long currentUserId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         
@@ -120,8 +169,23 @@ public class PostController {
             Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
             Page<Post> postsPage = postRepository.findByAuthorId(userId, pageable);
             
-            List<PostDTO> posts = postsPage.getContent().stream()
-                    .map(PostDTO::fromEntity)
+            // Get current user's liked posts if provided
+            final List<Long> likedPostIds = currentUserId != null 
+                ? postLikeRepository.findPostIdsByUserId(currentUserId) 
+                : null;
+            
+            // Map posts to enhanced DTOs with comments and likes
+            List<EnhancedPostDTO> posts = postsPage.getContent().stream()
+                    .map(post -> {
+                        // Get all comments for this post
+                        List<Comment> comments = commentRepository.findByPostIdAndParentCommentIsNullOrderByCreatedAtDesc(
+                                post.getId(), Pageable.unpaged()).getContent();
+                        
+                        // Get all likes for this post
+                        List<PostLike> likes = postLikeRepository.findByIdPostId(post.getId());
+                        
+                        return EnhancedPostDTO.fromEntity(post, comments, likes, likedPostIds);
+                    })
                     .collect(Collectors.toList());
             
             Map<String, Object> response = new HashMap<>();
@@ -139,12 +203,28 @@ public class PostController {
         }
     }
     
-    // Get a specific post
+    // Get a specific post with detailed information
     @GetMapping("/{postId}")
-    public ResponseEntity<?> getPost(@PathVariable Long postId) {
+    public ResponseEntity<?> getPost(
+            @PathVariable Long postId,
+            @RequestParam(required = false) Long userId) {
         try {
             return postRepository.findById(postId)
-                    .map(post -> ResponseEntity.ok(PostDTO.fromEntity(post)))
+                    .map(post -> {
+                        // Get liked status if userId is provided
+                        final List<Long> likedPostIds = userId != null 
+                            ? postLikeRepository.findPostIdsByUserId(userId) 
+                            : null;
+                        
+                        // Get all comments for this post
+                        List<Comment> comments = commentRepository.findByPostIdAndParentCommentIsNullOrderByCreatedAtDesc(
+                                post.getId(), Pageable.unpaged()).getContent();
+                        
+                        // Get all likes for this post
+                        List<PostLike> likes = postLikeRepository.findByIdPostId(post.getId());
+                        
+                        return ResponseEntity.ok(EnhancedPostDTO.fromEntity(post, comments, likes, likedPostIds));
+                    })
                     .orElse(ResponseEntity.notFound().build());
         } catch (Exception e) {
             Map<String, Object> response = new HashMap<>();
@@ -201,10 +281,19 @@ public class PostController {
             
             Post savedPost = postRepository.save(post);
             
+            // Get all comments for this post (will be empty for new post)
+            List<Comment> comments = Collections.emptyList();
+            
+            // Get all likes for this post (will be empty for new post)
+            List<PostLike> likes = Collections.emptyList();
+            
+            // Create a singleton list with just this post's ID
+            List<Long> likedPostIds = List.of();
+            
             return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
                 "success", true,
                 "message", "Post created successfully",
-                "data", PostDTO.fromEntity(savedPost)
+                "data", EnhancedPostDTO.fromEntity(savedPost, comments, likes, likedPostIds)
             ));
         } catch (IOException e) {
             Map<String, Object> response = new HashMap<>();
@@ -469,6 +558,7 @@ public class PostController {
     @GetMapping("/search")
     public ResponseEntity<Map<String, Object>> searchPosts(
             @RequestParam String keyword,
+            @RequestParam(required = false) Long userId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         
@@ -476,8 +566,23 @@ public class PostController {
             Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
             Page<Post> postsPage = postRepository.findByContentContainingIgnoreCase(keyword, pageable);
             
-            List<PostDTO> posts = postsPage.getContent().stream()
-                    .map(PostDTO::fromEntity)
+            // Get liked posts if userId is provided
+            final List<Long> likedPostIds = userId != null 
+                ? postLikeRepository.findPostIdsByUserId(userId) 
+                : null;
+            
+            // Map posts to enhanced DTOs with comments and likes
+            List<EnhancedPostDTO> posts = postsPage.getContent().stream()
+                    .map(post -> {
+                        // Get all comments for this post
+                        List<Comment> comments = commentRepository.findByPostIdAndParentCommentIsNullOrderByCreatedAtDesc(
+                                post.getId(), Pageable.unpaged()).getContent();
+                        
+                        // Get all likes for this post
+                        List<PostLike> likes = postLikeRepository.findByIdPostId(post.getId());
+                        
+                        return EnhancedPostDTO.fromEntity(post, comments, likes, likedPostIds);
+                    })
                     .collect(Collectors.toList());
             
             Map<String, Object> response = new HashMap<>();
@@ -508,6 +613,169 @@ public class PostController {
                     .body(resource);
         } catch (IOException e) {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    // Get all post IDs liked by a user
+    @GetMapping("/liked-by/{userId}")
+    public ResponseEntity<?> getPostsLikedByUser(@PathVariable Long userId) {
+        try {
+            if (!userRepository.existsById(userId)) {
+                return ResponseEntity.badRequest().body(Map.of(
+                    "success", false,
+                    "message", "User not found with ID: " + userId
+                ));
+            }
+            
+            List<Long> likedPostIds = postLikeRepository.findPostIdsByUserId(userId);
+            
+            return ResponseEntity.ok(Map.of(
+                "success", true,
+                "message", "Liked posts retrieved successfully",
+                "data", likedPostIds
+            ));
+        } catch (Exception e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", false);
+            response.put("message", "Failed to get liked posts: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+    
+    // Check if a user has liked a specific post
+    @GetMapping("/{postId}/liked-by/{userId}")
+    public ResponseEntity<?> checkIfUserLikedPost(
+            @PathVariable Long postId,
+            @PathVariable Long userId) {
+        try {
+            boolean hasLiked = postLikeRepository.existsByIdUserIdAndIdPostId(userId, postId);
+            
+            return ResponseEntity.ok(Map.of(
+                "success", true,
+                "hasLiked", hasLiked
+            ));
+        } catch (Exception e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", false);
+            response.put("message", "Failed to check like status: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+    
+    // Like a post
+    @PostMapping("/{postId}/like")
+    public ResponseEntity<?> likePost(
+            @PathVariable Long postId,
+            @RequestBody Map<String, Object> requestBody) {
+        
+        try {
+            // Extract values from request body
+            Long userId = Long.valueOf(requestBody.get("user_id").toString());
+            
+            // Check if user exists
+            User user = userRepository.findById(userId).orElse(null);
+            if (user == null) {
+                return ResponseEntity.badRequest().body(Map.of(
+                    "success", false,
+                    "message", "User not found with ID: " + userId
+                ));
+            }
+            
+            // Check if post exists
+            Post post = postRepository.findById(postId).orElse(null);
+            if (post == null) {
+                return ResponseEntity.badRequest().body(Map.of(
+                    "success", false,
+                    "message", "Post not found with ID: " + postId
+                ));
+            }
+            
+            // Check if already liked
+            if (postLikeRepository.existsByIdUserIdAndIdPostId(userId, postId)) {
+                return ResponseEntity.ok(Map.of(
+                    "success", true,
+                    "message", "Post already liked",
+                    "likeCount", post.getLikeCount()
+                ));
+            }
+            
+            // Create new like record
+            PostLike postLike = new PostLike();
+            postLike.setId(new PostLike.PostLikeId(userId, postId));
+            postLike.setUser(user);
+            postLike.setPost(post);
+            postLikeRepository.save(postLike);
+            
+            // Update post like count
+            post.setLikeCount(post.getLikeCount() + 1);
+            Post updatedPost = postRepository.save(post);
+            
+            return ResponseEntity.ok(Map.of(
+                "success", true,
+                "message", "Post liked successfully",
+                "likeCount", updatedPost.getLikeCount()
+            ));
+        } catch (Exception e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", false);
+            response.put("message", "Failed to like post: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+    // Unlike a post
+    @PostMapping("/{postId}/unlike")
+    public ResponseEntity<?> unlikePost(
+            @PathVariable Long postId,
+            @RequestBody Map<String, Object> requestBody) {
+        
+        try {
+            // Extract values from request body
+            Long userId = Long.valueOf(requestBody.get("user_id").toString());
+            
+            // Check if user exists
+            if (!userRepository.existsById(userId)) {
+                return ResponseEntity.badRequest().body(Map.of(
+                    "success", false,
+                    "message", "User not found with ID: " + userId
+                ));
+            }
+            
+            // Check if post exists
+            Post post = postRepository.findById(postId).orElse(null);
+            if (post == null) {
+                return ResponseEntity.badRequest().body(Map.of(
+                    "success", false,
+                    "message", "Post not found with ID: " + postId
+                ));
+            }
+            
+            // Check if like exists
+            if (!postLikeRepository.existsByIdUserIdAndIdPostId(userId, postId)) {
+                return ResponseEntity.ok(Map.of(
+                    "success", true,
+                    "message", "Post is not liked by this user",
+                    "likeCount", post.getLikeCount()
+                ));
+            }
+            
+            // Delete like
+            postLikeRepository.deleteByIdUserIdAndIdPostId(userId, postId);
+            
+            // Update post like count
+            post.setLikeCount(Math.max(0, post.getLikeCount() - 1));
+            Post updatedPost = postRepository.save(post);
+            
+            return ResponseEntity.ok(Map.of(
+                "success", true,
+                "message", "Post unliked successfully",
+                "likeCount", updatedPost.getLikeCount()
+            ));
+        } catch (Exception e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", false);
+            response.put("message", "Failed to unlike post: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 } 

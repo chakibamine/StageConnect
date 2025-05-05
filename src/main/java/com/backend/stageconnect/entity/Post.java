@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "posts")
@@ -42,6 +43,10 @@ public class Post {
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnoreProperties({"posts", "password", "enabled", "userType"})
     private User author;
+    
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({"post"})
+    private List<PostLike> likes;
     
     @PrePersist
     protected void onCreate() {
