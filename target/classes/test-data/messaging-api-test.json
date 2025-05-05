@@ -1,0 +1,160 @@
+{
+  "sendMessage": {
+    "url": "POST /api/messages/send",
+    "description": "Send a message to another user",
+    "payload": {
+      "sender_id": 123,
+      "receiver_id": 456,
+      "content": "Hi there! I'm interested in the internship position you posted."
+    },
+    "response": {
+      "success": true,
+      "message": "Message sent successfully",
+      "data": {
+        "id": 1,
+        "senderId": 123,
+        "senderName": "John Doe",
+        "senderPhoto": "https://example.com/photo.jpg",
+        "receiverId": 456,
+        "receiverName": "Jane Smith",
+        "content": "Hi there! I'm interested in the internship position you posted.",
+        "isRead": false,
+        "timestamp": "2023-08-15T14:30:00"
+      }
+    }
+  },
+  
+  "getUserConversations": {
+    "url": "GET /api/messages/conversations/{userId}",
+    "description": "Get all conversations for a user",
+    "response": {
+      "success": true,
+      "conversations": [
+        {
+          "id": "123_456",
+          "user": {
+            "id": 456,
+            "name": "Jane Smith",
+            "profilePicture": "https://example.com/jane-photo.jpg",
+            "isOnline": true
+          },
+          "lastMessage": {
+            "content": "Hi there! I'm interested in the internship position you posted.",
+            "timestamp": "2023-08-15T14:30:00",
+            "isRead": false
+          },
+          "unreadCount": 2
+        },
+        {
+          "id": "123_789",
+          "user": {
+            "id": 789,
+            "name": "David Kim",
+            "profilePicture": "https://example.com/david-photo.jpg",
+            "isOnline": false
+          },
+          "lastMessage": {
+            "content": "Thanks for connecting! Let's catch up soon about potential opportunities.",
+            "timestamp": "2023-08-14T09:45:00",
+            "isRead": true
+          },
+          "unreadCount": 0
+        }
+      ]
+    }
+  },
+  
+  "getConversation": {
+    "url": "GET /api/messages/{userId}/{partnerId}?page=0&size=50",
+    "description": "Get messages between two users",
+    "response": {
+      "success": true,
+      "conversation": {
+        "id": "123_456",
+        "user": {
+          "id": 456,
+          "name": "Jane Smith",
+          "profilePicture": "https://example.com/jane-photo.jpg",
+          "isOnline": true
+        },
+        "lastMessage": {
+          "content": "I'll send you the link to apply.",
+          "timestamp": "2023-08-15T14:40:00",
+          "isRead": false
+        },
+        "unreadCount": 2,
+        "messages": [
+          {
+            "id": 1,
+            "senderId": 123,
+            "senderName": "John Doe",
+            "receiverId": 456,
+            "receiverName": "Jane Smith",
+            "content": "Hello Jane, how are you?",
+            "isRead": true,
+            "timestamp": "2023-08-15T14:20:00"
+          },
+          {
+            "id": 2,
+            "senderId": 456,
+            "senderName": "Jane Smith",
+            "receiverId": 123,
+            "receiverName": "John Doe",
+            "content": "Hi John! I'm doing well, thanks for asking. I saw that you're working at Google now?",
+            "isRead": true,
+            "timestamp": "2023-08-15T14:25:00"
+          },
+          {
+            "id": 3,
+            "senderId": 123,
+            "senderName": "John Doe",
+            "receiverId": 456,
+            "receiverName": "Jane Smith",
+            "content": "Yes, I started last month. They're currently looking for interns if you're interested.",
+            "isRead": true,
+            "timestamp": "2023-08-15T14:30:00"
+          },
+          {
+            "id": 4,
+            "senderId": 456,
+            "senderName": "Jane Smith",
+            "receiverId": 123,
+            "receiverName": "John Doe",
+            "content": "That sounds amazing! I'd definitely be interested. How can I apply?",
+            "isRead": true,
+            "timestamp": "2023-08-15T14:35:00"
+          },
+          {
+            "id": 5,
+            "senderId": 123,
+            "senderName": "John Doe",
+            "receiverId": 456,
+            "receiverName": "Jane Smith",
+            "content": "I'll send you the link to apply.",
+            "isRead": false,
+            "timestamp": "2023-08-15T14:40:00"
+          }
+        ]
+      }
+    }
+  },
+  
+  "markMessagesAsRead": {
+    "url": "PUT /api/messages/read/{userId}/{partnerId}",
+    "description": "Mark all messages from partner to user as read",
+    "response": {
+      "success": true,
+      "message": "Messages marked as read",
+      "count": 2
+    }
+  },
+  
+  "getUnreadMessageCount": {
+    "url": "GET /api/messages/unread/{userId}",
+    "description": "Get the total count of unread messages for a user",
+    "response": {
+      "success": true,
+      "unreadCount": 5
+    }
+  }
+} 
