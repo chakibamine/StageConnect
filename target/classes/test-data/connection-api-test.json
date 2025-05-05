@@ -1,0 +1,167 @@
+{
+  "sendConnectionRequest": {
+    "url": "POST /api/connections/request/{receiverId}",
+    "description": "Send a connection request to another user",
+    "payload": {
+      "user_id": 123
+    },
+    "response": {
+      "success": true,
+      "message": "Connection request sent successfully",
+      "data": {
+        "id": 1,
+        "requesterId": 123,
+        "requesterName": "John Doe",
+        "receiverId": 456,
+        "receiverName": "Jane Smith",
+        "status": "PENDING",
+        "isUserRequester": true
+      }
+    }
+  },
+  
+  "acceptConnectionRequest": {
+    "url": "PUT /api/connections/{connectionId}/accept",
+    "description": "Accept a pending connection request",
+    "payload": {
+      "user_id": 456
+    },
+    "response": {
+      "success": true,
+      "message": "Connection request accepted",
+      "data": {
+        "id": 1,
+        "requesterId": 123,
+        "requesterName": "John Doe",
+        "receiverId": 456,
+        "receiverName": "Jane Smith",
+        "status": "CONNECTED",
+        "isUserRequester": false
+      }
+    }
+  },
+  
+  "rejectConnectionRequest": {
+    "url": "PUT /api/connections/{connectionId}/reject",
+    "description": "Reject a pending connection request",
+    "payload": {
+      "user_id": 456
+    },
+    "response": {
+      "success": true,
+      "message": "Connection request rejected",
+      "data": {
+        "id": 1,
+        "requesterId": 123,
+        "requesterName": "John Doe",
+        "receiverId": 456,
+        "receiverName": "Jane Smith",
+        "status": "REJECTED",
+        "isUserRequester": false
+      }
+    }
+  },
+  
+  "getUserConnections": {
+    "url": "GET /api/connections/user/{userId}?page=0&size=10",
+    "description": "Get all established connections for a user",
+    "response": {
+      "connections": [
+        {
+          "id": 1,
+          "requesterId": 123,
+          "requesterName": "John Doe",
+          "requesterTitle": "Software Engineer",
+          "requesterCompany": "Tech Corp",
+          "requesterLocation": "Paris, France",
+          "requesterPhoto": "https://example.com/photo1.jpg",
+          "receiverId": 456,
+          "receiverName": "Jane Smith",
+          "receiverTitle": "Product Manager",
+          "receiverCompany": "Design Inc",
+          "receiverLocation": "Lyon, France",
+          "receiverPhoto": "https://example.com/photo2.jpg",
+          "status": "CONNECTED",
+          "isUserRequester": true,
+          "createdAt": "2023-06-15T10:30:00",
+          "updatedAt": "2023-06-16T14:20:00"
+        }
+      ],
+      "currentPage": 0,
+      "totalItems": 1,
+      "totalPages": 1
+    }
+  },
+  
+  "getPendingConnections": {
+    "url": "GET /api/connections/pending/{userId}?page=0&size=10",
+    "description": "Get all pending connection requests for a user",
+    "response": {
+      "pendingConnections": [
+        {
+          "id": 2,
+          "requesterId": 789,
+          "requesterName": "Alice Johnson",
+          "requesterTitle": "UX Designer",
+          "requesterCompany": "Creative Co",
+          "requesterLocation": "Paris, France",
+          "requesterPhoto": "https://example.com/photo3.jpg",
+          "receiverId": 123,
+          "receiverName": "John Doe",
+          "status": "PENDING",
+          "isUserRequester": false,
+          "createdAt": "2023-06-17T09:15:00",
+          "updatedAt": "2023-06-17T09:15:00"
+        }
+      ],
+      "currentPage": 0,
+      "totalItems": 1,
+      "totalPages": 1
+    }
+  },
+  
+  "getConnectionSuggestions": {
+    "url": "GET /api/connections/suggestions/{userId}?page=0&size=10",
+    "description": "Get connection suggestions for a user",
+    "response": {
+      "suggestions": [
+        {
+          "id": 567,
+          "name": "Thomas Chen",
+          "title": "Frontend Developer",
+          "company": "WebTech",
+          "location": "Lyon, France",
+          "photo": "https://example.com/photo4.jpg",
+          "mutualConnections": 2
+        },
+        {
+          "id": 890,
+          "name": "Maria Rodriguez",
+          "title": "Backend Engineer",
+          "company": "TechSolutions",
+          "location": "Marseille, France",
+          "photo": "https://example.com/photo5.jpg",
+          "mutualConnections": 3
+        }
+      ]
+    }
+  },
+  
+  "getConnectionStats": {
+    "url": "GET /api/connections/stats/{userId}",
+    "description": "Get connection statistics for a user",
+    "response": {
+      "connectionsCount": 15,
+      "pendingCount": 3
+    }
+  },
+  
+  "removeConnection": {
+    "url": "DELETE /api/connections/{connectionId}?userId=123",
+    "description": "Remove an existing connection",
+    "response": {
+      "success": true,
+      "message": "Connection removed successfully"
+    }
+  }
+} 
