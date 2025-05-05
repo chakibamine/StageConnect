@@ -57,4 +57,19 @@ public class Company {
     
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Responsible> responsibles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Internship> internships = new ArrayList<>();
+
+    // Helper method to add internship
+    public void addInternship(Internship internship) {
+        this.internships.add(internship);
+        internship.setCompany(this);
+    }
+
+    // Helper method to remove internship
+    public void removeInternship(Internship internship) {
+        this.internships.remove(internship);
+        internship.setCompany(null);
+    }
 } 

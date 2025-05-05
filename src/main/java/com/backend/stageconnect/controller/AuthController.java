@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import io.jsonwebtoken.Claims;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -81,6 +82,13 @@ public class AuthController {
         response.put("email", responsible.getEmail());
         response.put("userType", "employer"); // Keep employer for top-level
         response.put("profile", profile);
+        
+        // Add company info
+        if (responsible.getCompany() != null) {
+            response.put("companyId", responsible.getCompany().getId());
+            response.put("companyName", responsible.getCompany().getName());
+            response.put("company_id", responsible.getCompany().getId());
+        }
         
         return response;
     }
@@ -266,10 +274,16 @@ public class AuthController {
                     // Use the custom response mapper for responsible users
                     response = createResponsibleResponse(responsible, jwtToken);
                     
-                    // Add company info for backward compatibility
+                    // Add company info
                     if (responsible.getCompany() != null) {
                         response.put("companyId", responsible.getCompany().getId());
                         response.put("companyName", responsible.getCompany().getName());
+                    }
+                    
+                    // Add company_id from token claims
+                    Claims claims = jwtService.extractAllClaims(jwtToken);
+                    if (claims.containsKey("company_id")) {
+                        response.put("company_id", claims.get("company_id"));
                     }
                 }
             } else {
@@ -344,10 +358,16 @@ public class AuthController {
                             response = createResponsibleResponse(responsible, jwt);
                             response.put("message", "Token is valid");
                             
-                            // Add company info for backward compatibility
+                            // Add company info
                             if (responsible.getCompany() != null) {
                                 response.put("companyId", responsible.getCompany().getId());
                                 response.put("companyName", responsible.getCompany().getName());
+                            }
+                            
+                            // Add company_id from token claims
+                            Claims claims = jwtService.extractAllClaims(jwt);
+                            if (claims.containsKey("company_id")) {
+                                response.put("company_id", claims.get("company_id"));
                             }
                         }
                     } else if (user.getUserType() == UserType.ADMIN) {

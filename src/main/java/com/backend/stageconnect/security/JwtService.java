@@ -1,6 +1,8 @@
 package com.backend.stageconnect.security;
 
 import com.backend.stageconnect.entity.User;
+import com.backend.stageconnect.entity.UserType;
+import com.backend.stageconnect.entity.Responsible;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -32,7 +34,17 @@ public class JwtService {
     }
     
     public String generateToken(User user) {
-        return generateToken(new HashMap<>(), user);
+        Map<String, Object> extraClaims = new HashMap<>();
+        
+        // Add company_id to claims if user is a RESPONSIBLE
+        if (user.getUserType() == UserType.RESPONSIBLE) {
+            Responsible responsible = (Responsible) user;
+            if (responsible.getCompany() != null) {
+                extraClaims.put("company_id", responsible.getCompany().getId());
+            }
+        }
+        
+        return generateToken(extraClaims, user);
     }
     
     public String generateToken(Map<String, Object> extraClaims, User user) {
@@ -64,7 +76,7 @@ public class JwtService {
         return extractAllClaims(token).get("userType", String.class);
     }
     
-    private Claims extractAllClaims(String token) {
+    public Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()

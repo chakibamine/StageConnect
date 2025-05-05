@@ -16,8 +16,11 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Responsible extends User {
-    
-    @ManyToOne
-    @JoinColumn(name = "company_id", nullable = false)
+
+    private String position;
+    private String department;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id")
     private Company company;
 } 
