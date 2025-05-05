@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "internships")
 @Data
@@ -56,6 +59,10 @@ public class Internship {
     @JoinColumn(name = "company_id", nullable = false)
     @JsonIgnoreProperties({"internships", "password", "enabled", "userType"})
     private Company company;
+    
+    @OneToMany(mappedBy = "internship", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("internship")
+    private List<Application> applications = new ArrayList<>();
 
     // Helper method to set up bidirectional relationship
     public void setCompany(Company company) {
@@ -63,5 +70,19 @@ public class Internship {
         if (company != null && !company.getInternships().contains(this)) {
             company.getInternships().add(this);
         }
+    }
+    
+    // Helper method to add an application
+    public void addApplication(Application application) {
+        applications.add(application);
+        application.setInternship(this);
+        this.applicantsCount = this.applications.size();
+    }
+    
+    // Helper method to remove an application
+    public void removeApplication(Application application) {
+        applications.remove(application);
+        application.setInternship(null);
+        this.applicantsCount = this.applications.size();
     }
 } 
