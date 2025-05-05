@@ -61,6 +61,12 @@ public class Company {
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Internship> internships = new ArrayList<>();
 
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Achievement> achievements = new ArrayList<>();
+
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Project> projects = new ArrayList<>();
+
     // Helper method to add internship
     public void addInternship(Internship internship) {
         this.internships.add(internship);
@@ -71,5 +77,29 @@ public class Company {
     public void removeInternship(Internship internship) {
         this.internships.remove(internship);
         internship.setCompany(null);
+    }
+
+    // Helper method to add achievement
+    public void addAchievement(Achievement achievement) {
+        this.achievements.add(achievement);
+        achievement.setCompany(this);
+    }
+
+    // Helper method to remove achievement
+    public void removeAchievement(Achievement achievement) {
+        this.achievements.remove(achievement);
+        achievement.setCompany(null);
+    }
+
+    // Helper method to add project
+    public void addProject(Project project) {
+        this.projects.add(project);
+        project.setCompany(this);
+    }
+
+    // Helper method to remove project
+    public void removeProject(Project project) {
+        this.projects.remove(project);
+        project.setCompany(null);
     }
 } 
