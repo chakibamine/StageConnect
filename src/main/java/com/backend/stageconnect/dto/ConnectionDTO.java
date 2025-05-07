@@ -53,7 +53,7 @@ public class ConnectionDTO {
                     // Use reflection or other safe approach if direct casting isn't possible
                     // This is a simplified example - adapt to your actual User hierarchy
                     dto.setRequesterTitle((String) getPropertyValue(requester, "title"));
-                    dto.setRequesterLocation((String) getPropertyValue(requester, "location"));
+                    dto .setRequesterLocation((String) getPropertyValue(requester, "location"));
                     dto.setRequesterPhoto((String) getPropertyValue(requester, "photo"));
                 } catch (Exception e) {
                     // Log the error but continue with partial data

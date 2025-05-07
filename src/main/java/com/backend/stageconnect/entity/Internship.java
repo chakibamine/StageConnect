@@ -64,6 +64,10 @@ public class Internship {
     @JsonIgnoreProperties("internship")
     private List<Application> applications = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "project_id")
+    private Project project;
+
     // Helper method to set up bidirectional relationship
     public void setCompany(Company company) {
         this.company = company;
@@ -84,5 +88,13 @@ public class Internship {
         applications.remove(application);
         application.setInternship(null);
         this.applicantsCount = this.applications.size();
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 } 

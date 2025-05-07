@@ -6,8 +6,12 @@ import com.backend.stageconnect.entity.Internship;
 import com.backend.stageconnect.repository.CompanyRepository;
 import com.backend.stageconnect.repository.InternshipRepository;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -37,38 +41,64 @@ public class InternshipController {
     private CompanyRepository companyRepository;
 
     @GetMapping
-    public ResponseEntity<List<InternshipDTO>> getAllInternships(
+    public ResponseEntity<?> getInternships(
             @PathVariable Long companyId,
-            @RequestParam(required = false) String status) {
-        if (!companyRepository.existsById(companyId)) {
-            return ResponseEntity.notFound().build();
+            @RequestParam(required = false) String status,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        try {
+            Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+            Page<Internship> internships;
+            
+            if (status != null && !status.isEmpty()) {
+                internships = internshipRepository.findByCompanyIdAndStatus(companyId, status, pageable);
+            } else {
+                internships = internshipRepository.findByCompanyId(companyId, pageable);
+            }
+
+            List<InternshipDTO> internshipDTOs = internships.getContent().stream()
+                .map(InternshipDTO::fromEntity)
+                .collect(Collectors.toList());
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("message", "Internships retrieved successfully");
+            response.put("data", internshipDTOs);
+            response.put("currentPage", internships.getNumber());
+            response.put("totalItems", internships.getTotalElements());
+            response.put("totalPages", internships.getTotalPages());
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", false);
+            response.put("message", "Error retrieving internships: " + e.getMessage());
+            return ResponseEntity.status(500).body(response);
         }
-        
-        List<Internship> internships;
-        if (status != null) {
-            internships = internshipRepository.findByCompanyIdAndStatus(companyId, status);
-        } else {
-            internships = internshipRepository.findByCompanyId(companyId);
-        }
-        
-        List<InternshipDTO> internshipDTOs = internships.stream()
-            .map(InternshipDTO::fromEntity)
-            .collect(Collectors.toList());
-        return ResponseEntity.ok(internshipDTOs);
     }
 
     @GetMapping("/{internshipId}")
-    public ResponseEntity<InternshipDTO> getInternship(
+    public ResponseEntity<?> getInternshipById(
             @PathVariable Long companyId,
             @PathVariable Long internshipId) {
         return internshipRepository.findById(internshipId)
                 .map(internship -> {
                     if (!internship.getCompany().getId().equals(companyId)) {
-                        return ResponseEntity.notFound().<InternshipDTO>build();
+                        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
+                            "success", false,
+                            "message", "Internship not found for this company"
+                        ));
                     }
-                    return ResponseEntity.ok(InternshipDTO.fromEntity(internship));
+                    return ResponseEntity.ok(Map.of(
+                        "success", true,
+                        "message", "Internship found",
+                        "data", InternshipDTO.fromEntity(internship)
+                    ));
                 })
-                .orElse(ResponseEntity.notFound().build());
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
+                    "success", false,
+                    "message", "Internship not found"
+                )));
     }
 
     @PostMapping
@@ -240,5 +270,40 @@ public class InternshipController {
             response.put("message", "Failed to update internship status: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
+    }
+
+    @GetMapping("/active")
+    public ResponseEntity<?> getAllActiveInternships() {
+        try {
+            List<Internship> activeInternships = internshipRepository.findByStatus("active");
+            List<InternshipDTO> internshipDTOs = activeInternships.stream()
+                .map(InternshipDTO::fromEntity)
+                .collect(Collectors.toList());
+            
+            return ResponseEntity.ok(Map.of(
+                "success", true,
+                "message", "Active internships retrieved successfully",
+                "data", internshipDTOs
+            ));
+        } catch (Exception e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", false);
+            response.put("message", "Failed to retrieve active internships: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+    @GetMapping("/internships/id/{internshipId}")
+    public ResponseEntity<?> getInternshipByIdOnly(@PathVariable Long internshipId) {
+        return internshipRepository.findById(internshipId)
+                .map(internship -> ResponseEntity.ok(Map.of(
+                    "success", true,
+                    "message", "Internship found",
+                    "data", InternshipDTO.fromEntity(internship)
+                )))
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
+                    "success", false,
+                    "message", "Internship not found"
+                )));
     }
 } 

@@ -2,6 +2,8 @@ package com.backend.stageconnect.dto;
 
 import com.backend.stageconnect.entity.Internship;
 import lombok.Data;
+import java.util.HashMap;
+import java.util.Map;
 
 @Data
 public class InternshipDTO {
@@ -17,6 +19,7 @@ public class InternshipDTO {
     private String postedDate;
     private String deadline;
     private Long companyId;
+    private Map<String, Object> company;
 
     public static InternshipDTO fromEntity(Internship internship) {
         InternshipDTO dto = new InternshipDTO();
@@ -27,13 +30,23 @@ public class InternshipDTO {
         dto.setWorkType(internship.getWorkType());
         dto.setDuration(internship.getDuration());
         dto.setCompensation(internship.getCompensation());
-        dto.setApplicantsCount(internship.getApplicantsCount());
         dto.setStatus(internship.getStatus());
         dto.setPostedDate(internship.getPostedDate());
         dto.setDeadline(internship.getDeadline());
+        dto.setApplicantsCount(internship.getApplicantsCount());
+        
         if (internship.getCompany() != null) {
-            dto.setCompanyId(internship.getCompany().getId());
+            Map<String, Object> companyMap = new HashMap<>();
+            companyMap.put("id", internship.getCompany().getId());
+            companyMap.put("name", internship.getCompany().getName());
+            dto.setCompany(companyMap);
+        } else {
+            Map<String, Object> defaultCompany = new HashMap<>();
+            defaultCompany.put("id", 0);
+            defaultCompany.put("name", "Unknown Company");
+            dto.setCompany(defaultCompany);
         }
+        
         return dto;
     }
 } 

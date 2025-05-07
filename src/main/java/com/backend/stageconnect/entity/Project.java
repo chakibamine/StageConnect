@@ -1,89 +1,140 @@
 package com.backend.stageconnect.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import jakarta.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "company_projects")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Table(name = "projects")
 public class Project {
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @NotBlank(message = "Title is required")
-    @Column(nullable = false)
+    @Size(max = 100, message = "Title must be less than 100 characters")
     private String title;
-    
-    @NotBlank(message = "Description is required")
-    @Column(nullable = false, length = 1000)
+
+    @Column(columnDefinition = "TEXT")
     private String description;
-    
-    // Store tags as a comma-separated string
-    @Column(name = "tags_list", length = 500)
-    private String tagsList;
-    
-    // Transient field to handle tags as a list in the application
-    @Transient
-    private List<String> tags = new ArrayList<>();
-    
+
+    @Column(name = "start_date")
+    private LocalDateTime startDate;
+
+    @Column(name = "end_date")
+    private LocalDateTime endDate;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id", nullable = false)
-    @JsonIgnoreProperties({"projects", "password", "enabled", "userType"})
     private Company company;
 
-    // Helper method to set up bidirectional relationship
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Internship> internships = new ArrayList<>();
+
+    @ElementCollection
+    @CollectionTable(name = "project_tags", joinColumns = @JoinColumn(name = "project_id"))
+    @Column(name = "tag")
+    private List<String> tags = new ArrayList<>();
+
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDateTime endDate) {
+        this.endDate = endDate;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
     public void setCompany(Company company) {
         this.company = company;
-        if (company != null && !company.getProjects().contains(this)) {
-            company.getProjects().add(this);
-        }
     }
-    
-    // Convert list to string before persisting
-    @PrePersist
-    @PreUpdate
-    public void prepareTags() {
-        if (tags != null && !tags.isEmpty()) {
-            this.tagsList = String.join(",", tags);
-        } else {
-            this.tagsList = "";
-        }
+
+    public List<Internship> getInternships() {
+        return internships;
     }
-    
-    // Convert string to list after loading
-    @PostLoad
-    public void loadTags() {
-        if (tagsList != null && !tagsList.isEmpty()) {
-            this.tags = Arrays.asList(tagsList.split(","));
-        } else {
-            this.tags = new ArrayList<>();
-        }
+
+    public void setInternships(List<Internship> internships) {
+        this.internships = internships;
     }
-    
-    // Getter and setter for tags that interact with the database field
+
     public List<String> getTags() {
-        if (tags == null) {
-            loadTags();
-        }
         return tags;
     }
-    
+
     public void setTags(List<String> tags) {
         this.tags = tags;
-        prepareTags();
+    }
+
+    // Pre-persist and pre-update hooks
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
     }
 } 
