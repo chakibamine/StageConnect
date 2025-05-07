@@ -31,6 +31,11 @@ public class ApplicationDTO {
     
     // Additional fields for company view
     private String applicantPhoneNumber;
+    private String interviewDate;
+    private String interviewTime;
+    
+    // Full applicant details - used for employer dashboard
+    private Map<String, Object> applicant;
     
     public static ApplicationDTO fromEntity(Application application) {
         ApplicationDTO dto = new ApplicationDTO();
@@ -68,6 +73,8 @@ public class ApplicationDTO {
         dto.setQuestionAnswers(application.getQuestionAnswers());
         dto.setAvailableStartDate(application.getAvailableStartDate());
         dto.setFeedback(application.getFeedback());
+        dto.setInterviewDate(application.getInterviewDate());
+        dto.setInterviewTime(application.getInterviewTime());
         dto.setCreatedAt(application.getCreatedAt());
         dto.setUpdatedAt(application.getUpdatedAt());
         

@@ -47,7 +47,7 @@ public class InternshipController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         try {
-            Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+            Pageable pageable = PageRequest.of(page, size, Sort.by("postedDate").descending());
             Page<Internship> internships;
             
             if (status != null && !status.isEmpty()) {

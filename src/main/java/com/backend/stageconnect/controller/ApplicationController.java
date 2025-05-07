@@ -4,6 +4,7 @@ import com.backend.stageconnect.dto.ApplicationDTO;
 import com.backend.stageconnect.entity.Application;
 import com.backend.stageconnect.entity.Internship;
 import com.backend.stageconnect.entity.User;
+import com.backend.stageconnect.entity.Candidate;
 import com.backend.stageconnect.repository.ApplicationRepository;
 import com.backend.stageconnect.repository.InternshipRepository;
 import com.backend.stageconnect.repository.UserRepository;
@@ -144,7 +145,7 @@ public class ApplicationController {
                 ));
             }
             
-            Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+            Pageable pageable = PageRequest.of(page, size, Sort.by("postedDate").descending());
             Page<Application> applicationsPage;
             
             // Filter by status if provided
@@ -163,11 +164,48 @@ public class ApplicationController {
             }
             
             List<ApplicationDTO> applications = applicationsPage.getContent().stream()
-                    .map(ApplicationDTO::fromEntity)
+                    .map(application -> {
+                        ApplicationDTO dto = ApplicationDTO.fromEntity(application);
+                        
+                        // Add detailed applicant information for employer view
+                        if (application.getApplicant() instanceof Candidate) {
+                            Candidate candidate = (Candidate) application.getApplicant();
+                            
+                            // Create a map with additional applicant details
+                            Map<String, Object> applicantDetails = new HashMap<>();
+                            applicantDetails.put("id", candidate.getId());
+                            applicantDetails.put("firstName", candidate.getFirstName());
+                            applicantDetails.put("lastName", candidate.getLastName());
+                            applicantDetails.put("email", candidate.getEmail());
+                            applicantDetails.put("phone", candidate.getPhone());
+                            applicantDetails.put("photo", candidate.getPhoto());
+                            applicantDetails.put("location", candidate.getLocation());
+                            applicantDetails.put("title", candidate.getTitle());
+                            applicantDetails.put("university", candidate.getCompanyOrUniversity());
+                            applicantDetails.put("about", candidate.getAbout());
+                            applicantDetails.put("website", candidate.getWebsite());
+                            
+                            // Add education, experience, and certification counts if available
+                            if (candidate.getEducation() != null) {
+                                applicantDetails.put("educationCount", candidate.getEducation().size());
+                            }
+                            if (candidate.getExperiences() != null) {
+                                applicantDetails.put("experienceCount", candidate.getExperiences().size());
+                            }
+                            if (candidate.getCertifications() != null) {
+                                applicantDetails.put("certificationsCount", candidate.getCertifications().size());
+                            }
+                            
+                            // Add the applicant details to the DTO
+                            dto.setApplicant(applicantDetails);
+                        }
+                        
+                        return dto;
+                    })
                     .collect(Collectors.toList());
             
             Map<String, Object> response = new HashMap<>();
-            response.put("applications", applications);
+            response.put("content", applications);
             response.put("currentPage", applicationsPage.getNumber());
             response.put("totalItems", applicationsPage.getTotalElements());
             response.put("totalPages", applicationsPage.getTotalPages());
@@ -224,7 +262,44 @@ public class ApplicationController {
     public ResponseEntity<?> getApplication(@PathVariable Long applicationId) {
         try {
             return applicationRepository.findById(applicationId)
-                    .map(application -> ResponseEntity.ok(ApplicationDTO.fromEntity(application)))
+                    .map(application -> {
+                        ApplicationDTO dto = ApplicationDTO.fromEntity(application);
+                        
+                        // Add detailed applicant information for employer view
+                        if (application.getApplicant() instanceof Candidate) {
+                            Candidate candidate = (Candidate) application.getApplicant();
+                            
+                            // Create a map with additional applicant details
+                            Map<String, Object> applicantDetails = new HashMap<>();
+                            applicantDetails.put("id", candidate.getId());
+                            applicantDetails.put("firstName", candidate.getFirstName());
+                            applicantDetails.put("lastName", candidate.getLastName());
+                            applicantDetails.put("email", candidate.getEmail());
+                            applicantDetails.put("phone", candidate.getPhone());
+                            applicantDetails.put("photo", candidate.getPhoto());
+                            applicantDetails.put("location", candidate.getLocation());
+                            applicantDetails.put("title", candidate.getTitle());
+                            applicantDetails.put("university", candidate.getCompanyOrUniversity());
+                            applicantDetails.put("about", candidate.getAbout());
+                            applicantDetails.put("website", candidate.getWebsite());
+                            
+                            // Add education, experience, and certification counts if available
+                            if (candidate.getEducation() != null) {
+                                applicantDetails.put("educationCount", candidate.getEducation().size());
+                            }
+                            if (candidate.getExperiences() != null) {
+                                applicantDetails.put("experienceCount", candidate.getExperiences().size());
+                            }
+                            if (candidate.getCertifications() != null) {
+                                applicantDetails.put("certificationsCount", candidate.getCertifications().size());
+                            }
+                            
+                            // Add the applicant details to the DTO
+                            dto.setApplicant(applicantDetails);
+                        }
+                        
+                        return ResponseEntity.ok(dto);
+                    })
                     .orElse(ResponseEntity.notFound().build());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
@@ -266,6 +341,27 @@ public class ApplicationController {
                         // If feedback is provided, update it
                         if (requestBody.containsKey("feedback") && requestBody.get("feedback") != null) {
                             application.setFeedback(requestBody.get("feedback"));
+                        }
+                        
+                        // If interview date is provided, update it (especially when status is INTERVIEW_SCHEDULED)
+                        if (requestBody.containsKey("interviewDate") && requestBody.get("interviewDate") != null) {
+                            application.setInterviewDate(requestBody.get("interviewDate"));
+                        }
+                        
+                        // If interview time is provided, update it
+                        if (requestBody.containsKey("interviewTime") && requestBody.get("interviewTime") != null) {
+                            application.setInterviewTime(requestBody.get("interviewTime"));
+                        }
+                        
+                        // For INTERVIEW_SCHEDULED status, ensure interview date and time are set
+                        if (newStatus == Application.ApplicationStatus.INTERVIEW_SCHEDULED) {
+                            // If no interview date/time was provided but status is interview, add default values
+                            if (application.getInterviewDate() == null) {
+                                application.setInterviewDate("To be determined");
+                            }
+                            if (application.getInterviewTime() == null) {
+                                application.setInterviewTime("To be determined");
+                            }
                         }
                         
                         Application updatedApplication = applicationRepository.save(application);
@@ -316,4 +412,4 @@ public class ApplicationController {
             ));
         }
     }
-} 
+}

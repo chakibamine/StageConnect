@@ -55,6 +55,12 @@ public class Application {
     @Column(name = "feedback", columnDefinition = "TEXT")
     private String feedback;
     
+    @Column(name = "interview_date")
+    private String interviewDate;
+    
+    @Column(name = "interview_time")
+    private String interviewTime;
+    
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
