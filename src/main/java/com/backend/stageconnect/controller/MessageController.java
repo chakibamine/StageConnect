@@ -291,4 +291,42 @@ public class MessageController {
             ));
         }
     }
+    
+    // Get all messages by conversation ID
+    @GetMapping("/conversation/{conversationId}")
+    public ResponseEntity<?> getMessagesByConversationId(
+            @PathVariable String conversationId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size) {
+        
+        try {
+            // Validate the conversation ID format (should be userId1_userId2)
+            if (!conversationId.contains("_")) {
+                return ResponseEntity.badRequest().body(Map.of(
+                    "success", false,
+                    "message", "Invalid conversation ID format. Expected: userId1_userId2"
+                ));
+            }
+            
+            // Get messages by conversation ID with pagination
+            Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+            List<Message> messages = messageRepository.findByConversationIdOrderByCreatedAtAsc(conversationId);
+            
+            // Convert messages to DTOs
+            List<MessageDTO> messageDTOs = messages.stream()
+                .map(MessageDTO::fromEntity)
+                .collect(Collectors.toList());
+            
+            return ResponseEntity.ok(Map.of(
+                "success", true,
+                "messages", messageDTOs,
+                "count", messageDTOs.size()
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
+                "success", false,
+                "message", "Failed to fetch messages: " + e.getMessage()
+            ));
+        }
+    }
 } 
