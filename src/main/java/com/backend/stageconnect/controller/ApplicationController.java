@@ -145,7 +145,7 @@ public class ApplicationController {
                 ));
             }
             
-            Pageable pageable = PageRequest.of(page, size, Sort.by("postedDate").descending());
+            Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
             Page<Application> applicationsPage;
             
             // Filter by status if provided
