@@ -94,6 +94,76 @@ public class CompanyController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/with-internships")
+    @Transactional
+    public ResponseEntity<?> getAllCompaniesWithInternships() {
+        try {
+            var companies = companyRepository.findAll();
+            var response = companies.stream().map(company -> {
+                Map<String, Object> companyMap = new HashMap<>();
+                
+                // Add company details
+                companyMap.put("id", company.getId());
+                companyMap.put("name", company.getName());
+                companyMap.put("industry", company.getIndustry());
+                companyMap.put("size", company.getSize());
+                companyMap.put("foundedDate", company.getFoundedDate());
+                companyMap.put("website", company.getWebsite());
+                companyMap.put("location", company.getLocation());
+                companyMap.put("email", company.getEmail());
+                companyMap.put("phone", company.getPhone());
+                companyMap.put("address", company.getAddress());
+                companyMap.put("city", company.getCity());
+                companyMap.put("postalCode", company.getPostalCode());
+                companyMap.put("country", company.getCountry());
+                companyMap.put("technologies", company.getTechnologies());
+                companyMap.put("registrationNumber", company.getRegistrationNumber());
+                companyMap.put("vatId", company.getVatId());
+                companyMap.put("legalForm", company.getLegalForm());
+                companyMap.put("linkedInUrl", company.getLinkedInUrl());
+                companyMap.put("twitterUrl", company.getTwitterUrl());
+                companyMap.put("instagramUrl", company.getInstagramUrl());
+                companyMap.put("facebookUrl", company.getFacebookUrl());
+                
+                // Add complete photo URL if photo exists
+                if (company.getPhoto() != null) {
+                    companyMap.put("photo", baseUrl + company.getPhoto());
+                }
+                
+                // Add internships
+                List<Map<String, Object>> internships = company.getInternships().stream()
+                    .map(internship -> {
+                        Map<String, Object> internshipMap = new HashMap<>();
+                        internshipMap.put("id", internship.getId());
+                        internshipMap.put("title", internship.getTitle());
+                        internshipMap.put("department", internship.getDepartment());
+                        internshipMap.put("location", internship.getLocation());
+                        internshipMap.put("workType", internship.getWorkType());
+                        internshipMap.put("duration", internship.getDuration());
+                        internshipMap.put("compensation", internship.getCompensation());
+                        internshipMap.put("status", internship.getStatus());
+                        internshipMap.put("postedDate", internship.getPostedDate());
+                        internshipMap.put("deadline", internship.getDeadline());
+                        internshipMap.put("applicantsCount", internship.getApplicantsCount());
+                        return internshipMap;
+                    })
+                    .collect(Collectors.toList());
+                
+                companyMap.put("internships", internships);
+                return companyMap;
+            }).toList();
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            logger.error("Error fetching companies with internships: " + e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of(
+                        "success", false,
+                        "message", "Error fetching companies with internships: " + e.getMessage()
+                    ));
+        }
+    }
+
     @PostMapping
     public ResponseEntity<?> createCompany(@RequestBody Company company) {
         try {

@@ -5,8 +5,106 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d30ae57-6091-4425-94f0-d5a442e7c84d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/backend/stageconnect/controller/CandidateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/backend/stageconnect/controller/CandidateController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/backend/stageconnect/controller/CompanyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/backend/stageconnect/controller/CompanyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/StageConnectApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/StageConnectApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/config/CorsConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/config/CorsConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/config/FileStorageConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/config/FileStorageConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/config/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/config/SecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/config/WebConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/config/WebConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/config/WebSocketConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/config/WebSocketConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/AchievementController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/AchievementController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/ApplicationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/ApplicationController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/AuthController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/AuthController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/CandidateController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/CandidateController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/CertificationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/CertificationController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/ChatController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/ChatController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/CommentController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/CommentController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/CompanyController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/CompanyController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/ConnectionController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/ConnectionController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/EducationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/EducationController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/ExperienceController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/ExperienceController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/InternshipController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/InternshipController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/MessageController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/MessageController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/PostController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/PostController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/ProjectController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/ProjectController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/ResponsibleController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/ResponsibleController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/WebSocketEventListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/controller/WebSocketEventListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/AchievementDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/AchievementDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/ApplicationDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/ApplicationDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/CandidateDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/CandidateDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/CertificationDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/CertificationDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/CommentDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/CommentDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/CompanyDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/CompanyDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/ConnectionDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/ConnectionDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/ConversationDTO$LastMessageDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/ConversationDTO$LastMessageDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/ConversationDTO$UserSummaryDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/ConversationDTO$UserSummaryDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/ConversationDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/ConversationDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/EducationDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/EducationDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/EnhancedPostDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/EnhancedPostDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/ExperienceDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/ExperienceDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/InternshipDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/InternshipDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/MessageDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/MessageDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/PostDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/PostDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/ProjectDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/ProjectDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/ResponsibleDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/ResponsibleDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/UserDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/dto/UserDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Achievement.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Achievement.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Application$ApplicationStatus.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Application$ApplicationStatus.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Application.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Application.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Candidate$CandidateBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Candidate$CandidateBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Candidate$CandidateBuilderImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Candidate$CandidateBuilderImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Candidate.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Candidate.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Certification.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Certification.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Comment.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Comment.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Company$CompanyBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Company$CompanyBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Company.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Company.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Connection$ConnectionStatus.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Connection$ConnectionStatus.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Connection.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Connection.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Education.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Education.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Experience.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Experience.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Internship.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Internship.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Message.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Message.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Post.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Post.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/PostLike$PostLikeId.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/PostLike$PostLikeId.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/PostLike.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/PostLike.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Project.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Project.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Responsible$ResponsibleBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Responsible$ResponsibleBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Responsible$ResponsibleBuilderImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Responsible$ResponsibleBuilderImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Responsible.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/Responsible.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/User$UserBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/User$UserBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/UserFollowing.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/UserFollowing.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/UserType.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/entity/UserType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/model/ChatMessage$MessageType.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/model/ChatMessage$MessageType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/model/ChatMessage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/model/ChatMessage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/AchievementRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/AchievementRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/ApplicationRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/ApplicationRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/CandidateRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/CandidateRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/CertificationRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/CertificationRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/CommentRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/CommentRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/CompanyRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/CompanyRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/ConnectionRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/ConnectionRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/EducationRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/EducationRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/ExperienceRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/ExperienceRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/InternshipRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/InternshipRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/MessageRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/MessageRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/PostLikeRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/PostLikeRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/PostRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/PostRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/ProjectRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/ProjectRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/ResponsibleRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/ResponsibleRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/UserFollowingRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/UserFollowingRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/UserRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/repository/UserRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/security/DisabledJwtAuthenticationFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/security/DisabledJwtAuthenticationFilter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/security/JwtService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/security/JwtService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/service/CustomUserDetailsService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/service/CustomUserDetailsService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/service/ExperienceService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/service/ExperienceService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/service/FileStorageService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/backend/stageconnect/service/FileStorageService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/backend/stageconnect/StageConnectApplicationTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/backend/stageconnect/StageConnectApplicationTests.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +125,6 @@
   &quot;associatedIndex&quot;: 8
 }</component>
   <component name="ProjectId" id="2vrWOeV2vG8QtXAhqIi4e7w76Re" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -44,7 +141,9 @@
     &quot;Spring Boot.StageConnectApplication.executor&quot;: &quot;Run&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ROG/Desktop/stageE/StageConnect&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -70,8 +169,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.26053.27" />
-        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.26053.27" />
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.23774.435" />
+        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-IU-251.23774.435" />
       </set>
     </attachedChunks>
   </component>
@@ -94,6 +193,15 @@
       <workItem from="1746440874595" duration="1598000" />
       <workItem from="1746446232337" duration="5876000" />
       <workItem from="1746453108259" duration="6270000" />
+      <workItem from="1746487469301" duration="967000" />
+      <workItem from="1746546706583" duration="2395000" />
+      <workItem from="1746647071125" duration="1227000" />
+      <workItem from="1746833154625" duration="3103000" />
+      <workItem from="1746877594372" duration="1154000" />
+      <workItem from="1747076958743" duration="1299000" />
+      <workItem from="1747125910844" duration="1504000" />
+      <workItem from="1747174246140" duration="1989000" />
+      <workItem from="1747234718515" duration="333000" />
     </task>
     <servers />
   </component>

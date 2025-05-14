@@ -273,4 +273,92 @@ public class CandidateController {
         candidateRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/{id}/profile")
+    @Transactional
+    public ResponseEntity<?> getCandidateFullProfile(@PathVariable Long id) {
+        try {
+            Optional<Candidate> candidateOpt = candidateRepository.findById(id);
+            if (candidateOpt.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+            
+            Candidate candidate = candidateOpt.get();
+            
+            // Create response map
+            Map<String, Object> response = new HashMap<>();
+            
+            // Add basic candidate info
+            response.put("id", candidate.getId());
+            response.put("firstName", candidate.getFirstName());
+            response.put("lastName", candidate.getLastName());
+            response.put("email", candidate.getEmail());
+            response.put("phone", candidate.getPhone());
+            response.put("location", candidate.getLocation());
+            response.put("title", candidate.getTitle());
+            response.put("website", candidate.getWebsite());
+            response.put("companyOrUniversity", candidate.getCompanyOrUniversity());
+            response.put("about", candidate.getAbout());
+            
+            // Add photo URL if exists
+            if (candidate.getPhoto() != null) {
+                response.put("photo", baseUrl + candidate.getPhoto());
+            }
+            
+            // Add education
+            List<Map<String, Object>> educationList = candidate.getEducation().stream()
+                .map(education -> {
+                    Map<String, Object> eduMap = new HashMap<>();
+                    eduMap.put("id", education.getId());
+                    eduMap.put("degree", education.getDegree());
+                    eduMap.put("institution", education.getInstitution());
+                    eduMap.put("startDate", education.getStartDate());
+                    eduMap.put("endDate", education.getEndDate());
+                    eduMap.put("description", education.getDescription());
+                    return eduMap;
+                })
+                .collect(Collectors.toList());
+            response.put("education", educationList);
+            
+            // Add certifications
+            List<Map<String, Object>> certificationList = candidate.getCertifications().stream()
+                .map(certification -> {
+                    Map<String, Object> certMap = new HashMap<>();
+                    certMap.put("id", certification.getId());
+                    certMap.put("name", certification.getName());
+                    certMap.put("issuer", certification.getIssuer());
+                    certMap.put("date", certification.getDate());
+                    certMap.put("credentialId", certification.getCredentialId());
+                    certMap.put("url", certification.getUrl());
+                    return certMap;
+                })
+                .collect(Collectors.toList());
+            response.put("certifications", certificationList);
+            
+            // Add experiences
+            List<Map<String, Object>> experienceList = candidate.getExperiences().stream()
+                .map(experience -> {
+                    Map<String, Object> expMap = new HashMap<>();
+                    expMap.put("id", experience.getId());
+                    expMap.put("title", experience.getTitle());
+                    expMap.put("company", experience.getCompany());
+                    expMap.put("location", experience.getLocation());
+                    expMap.put("startDate", experience.getStartDate());
+                    expMap.put("endDate", experience.getEndDate());
+                    expMap.put("description", experience.getDescription());
+                    return expMap;
+                })
+                .collect(Collectors.toList());
+            response.put("experiences", experienceList);
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            logger.error("Error fetching candidate full profile: " + e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of(
+                        "success", false,
+                        "message", "Error fetching candidate full profile: " + e.getMessage()
+                    ));
+        }
+    }
 } 
